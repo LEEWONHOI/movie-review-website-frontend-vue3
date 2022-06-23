@@ -1,14 +1,10 @@
 <template>
-  <RouterLink
-    class="logo"
-    to="/">
-    <span>OMDbAPI</span>.COM
-  </RouterLink>
+  <RouterLink class="logo" to="/"> <span>MovieReview</span>.COM </RouterLink>
 </template>
 
 <style lang="scss" scoped>
 @import "~/scss/main";
-.logo{
+.logo {
   font-family: "Oswald", sans-serif;
   font-size: 20px;
   color: $black;
@@ -18,7 +14,6 @@
   }
   span {
     color: $primary;
-  }  
+  }
 }
-  
 </style>
