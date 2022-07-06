@@ -7,7 +7,6 @@
       <div v-if="message" class="message">
         {{ message }}
       </div>
-      <!-- TODO key 이름인 imdbID 변경 -->
       <div v-else class="movies">
         <MovieItem
           v-for="findMovie in movies"
@@ -62,9 +61,7 @@ export default {
   }
   .movies {
     display: flex;
-    // movie list 를 두 줄 이상으로 만들 수 있게 감싼다.
     flex-wrap: wrap;
-    // 수평 가운데 정렬
     justify-content: center;
   }
 }

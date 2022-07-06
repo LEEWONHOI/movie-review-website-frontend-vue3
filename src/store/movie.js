@@ -56,8 +56,6 @@ export default {
           // TODO 중복값을 imdbID 를 통해서 필터링. 추후 movie_id 로 변경
           movies: _uniqBy(Search, "movieId")
         });
-        console.log(totalResults);
-        console.log(typeof totalResults); // String
 
         const total = parseInt(totalResults, 10);
         const pageLength = Math.ceil(total / 10);
