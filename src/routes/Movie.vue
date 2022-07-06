@@ -71,23 +71,58 @@
         </div>
       </div>
     </div>
+    <!-- 여기에 댓글 입력 칸 만들기 -->
+    <div class="comment-form">
+      <h3>Comments</h3>
+      <form v-on:submit="submitForm">
+        <div class="comment-input">
+          <input
+            v-model="comment"
+            class="form-control"
+            id="comment"
+            type="text"
+            placeholder="댓글을 입력해주세요"
+            @keyup.enter="apply"
+          />
+          <button type="submit" class="btn btn-primary" @click="apply">
+            Apply
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="comment-list">
+      <Comment
+        v-for="findReview in theMovie.reviews"
+        :key="findReview.id"
+        :review="findReview"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import Loader from "~/components/Loader.vue";
+import Comment from "~/components/Comment.vue";
+import axios from "axios";
+import VueCookies from "vue-cookies";
+
 export default {
   components: {
-    Loader
+    Loader,
+    Comment
   },
   data() {
     return {
-      imageLoading: true
+      imageLoading: true,
+      comment: "",
+      session: VueCookies.get("mySession")
     };
   },
   computed: {
     theMovie() {
-      // created 시에 생성된 theMovie 데이터를 store 에서 가져와서 리턴함
+      return this.$store.state.movie.theMovie;
+    },
+    theMovie() {
       return this.$store.state.movie.theMovie;
     },
     loading() {
@@ -97,7 +132,6 @@ export default {
   created() {
     console.log(this.$router);
     this.$store.dispatch("movie/searchMovieWithId", {
-      // movie/tt12345
       id: this.$route.params.id
     });
   },
@@ -115,7 +149,38 @@ export default {
         this.imageLoading = false;
       });
       return src;
+    },
+
+    submitForm: function () {
+      var data = {
+        id: this.$route.params.id,
+        comment: this.comment,
+        session: this.session
+      };
+      axios
+        .post("http://localhost:9090/movie/addcomment", data)
+        .then(() => {
+          console.log("Hello, Javascript");
+          this.$router.go();
+        })
+        .catch(() => {
+          console.log("error");
+        })
+        .finally(() => {
+          // TODO 입력한 데이터 초기화
+        });
     }
+  },
+
+  async apply() {
+    var data = {
+      id: this.$route.params.id
+    };
+
+    // Mutation 을 실행할떈 .commit() / Actions 을 실행할떈 .dispatch()
+    this.$store.dispatch("movie/searchMovieWithId", {
+      id: this.$route.params.id
+    });
   }
 };
 </script>
@@ -125,6 +190,37 @@ export default {
 .container {
   padding-top: 40px;
 }
+.comment-form {
+  margin-top: 100px;
+  .comment-input {
+    display: flex;
+    > * {
+      margin-right: 10px;
+      font-size: 15px;
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+  }
+  h3 {
+    margin: 24px 0 6px;
+    color: $black;
+    font-family: "Oswald", sans-serif;
+    font-size: 20px;
+  }
+}
+
+.comment-list {
+  margin-top: 70px;
+
+  h3 {
+    margin: 24px 0 6px;
+    color: $black;
+    font-family: "Oswald", sans-serif;
+    font-size: 20px;
+  }
+}
+
 .skeletons {
   display: flex;
   .poster {
@@ -220,6 +316,12 @@ export default {
       font-family: "Oswald", sans-serif;
       font-size: 20px;
     }
+  }
+  .btn {
+    width: 120px;
+    height: 50px;
+    font-weight: 700;
+    flex-shrink: 0;
   }
 }
 </style>

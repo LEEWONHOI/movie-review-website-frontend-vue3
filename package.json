@@ -58,6 +58,7 @@
     "bootstrap": "^5.0.0-beta3",
     "lodash": "^4.17.21",
     "vue": "^3.0.7",
+    "vue-cookies": "^1.8.1",
     "vue-router": "^4.0.5",
     "vuex": "^4.0.0"
   }

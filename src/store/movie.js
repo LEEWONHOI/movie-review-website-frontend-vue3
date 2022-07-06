@@ -11,6 +11,8 @@ export default {
       message: "Search for the movie title",
       loading: false,
       theMovie: {}
+      // TODO 사용여부 체크
+      // comments: []
     };
   },
   // computed
@@ -98,6 +100,8 @@ export default {
         // 아예 메시더 시작 시 theMovie 객체를 초기화 시켜준다.
         theMovie: {},
         loading: true
+        // TODO 사용여부 체크
+        // comments: []
       });
 
       const { id } = payload;
